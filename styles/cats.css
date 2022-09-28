@@ -60,6 +60,10 @@ li.dead {
     text-decoration: line-through;
 }
 
+li.dead p::after {
+    content: ' 💀';
+}
+
 li:nth-child(odd) {
     background: var(--offset-background);
 }
