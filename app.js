@@ -1,6 +1,6 @@
 /* Imports */
 import './auth/user.js';
-import { createCat } from './fetch-utils.js';
+import { createCat, getCats } from './fetch-utils.js';
 
 import { renderCat } from './render-utils.js';
 
@@ -15,6 +15,21 @@ let cats = [];
 let error = null;
 
 /* Events */
+window.addEventListener('load', async () => {
+    // call the get all cats
+    const response = await getCats();
+    // check for errors and get the data
+    error = response.error;
+    cats = response.data;
+
+    // display errors or cats
+    if (error) {
+        displayError();
+    } else {
+        displayCats();
+    }
+});
+
 addCatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 

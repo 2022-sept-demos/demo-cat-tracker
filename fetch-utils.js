@@ -34,3 +34,7 @@ export async function createCat(cat) {
     // return response
     return await client.from('cats').insert(cat).single();
 }
+
+export async function getCats() {
+    return await client.from('cats').select('*');
+}
