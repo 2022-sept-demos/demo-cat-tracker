@@ -54,6 +54,7 @@ li {
     gap: 30px;
     padding: 10px 20px;
     color: var(--offset-color);
+    border-bottom: 1px solid white;
 }
 
 li.dead {
