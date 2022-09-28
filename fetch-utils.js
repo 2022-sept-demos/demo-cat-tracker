@@ -38,3 +38,11 @@ export async function createCat(cat) {
 export async function getCats() {
     return await client.from('cats').select('*');
 }
+
+export async function updateLives(id, lives) {
+    return await client
+        .from('cats')
+        .update({ lives: lives })
+        .eq('id', id)
+        .single();
+}

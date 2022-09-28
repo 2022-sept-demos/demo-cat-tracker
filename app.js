@@ -1,6 +1,6 @@
 /* Imports */
 import './auth/user.js';
-import { createCat, getCats } from './fetch-utils.js';
+import { createCat, getCats, updateLives } from './fetch-utils.js';
 
 import { renderCat } from './render-utils.js';
 
@@ -54,6 +54,7 @@ addCatForm.addEventListener('submit', async (e) => {
 });
 
 function displayError() {
+    // eslint-disable-next-line no-console
     console.error(error);
     errorDisplay.textContent = error.message;
 }
@@ -64,5 +65,23 @@ function displayCats() {
     for (const cat of cats) {
         const catEl = renderCat(cat);
         catList.append(catEl);
+
+        catEl.addEventListener('click', async () => {
+            if (cat.lives < 1) {
+                return;
+            }
+
+            const response = await updateLives(cat.id, cat.lives - 1);
+            error = response.error;
+            const updatedCat = response.data;
+
+            if (error) {
+                displayError();
+            } else {
+                const index = cats.indexOf(cat);
+                cats[index] = updatedCat;
+                displayCats();
+            }
+        });
     }
 }
