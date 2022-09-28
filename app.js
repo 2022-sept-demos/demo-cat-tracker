@@ -3,7 +3,7 @@ import './auth/user.js';
 import {
     createCat,
     getCats,
-    removeAllCats,
+    removeAllDeadCats,
     updateLives,
 } from './fetch-utils.js';
 
@@ -60,14 +60,20 @@ addCatForm.addEventListener('submit', async (e) => {
 
 removeButton.addEventListener('click', async () => {
     // call removeAllCats
-    const response = await removeAllCats();
+    const response = await removeAllDeadCats();
     error = response.error;
     // check for error
     if (error) {
         displayError();
     } else {
-        // reset cat state to []
-        cats = [];
+        const aliveCats = [];
+        for (const cat of cats) {
+            if (cat.lives > 0) {
+                aliveCats.push(cat);
+            }
+        }
+        cats = aliveCats;
+
         // display cats
         displayCats();
     }
