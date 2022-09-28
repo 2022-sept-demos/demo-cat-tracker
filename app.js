@@ -1,12 +1,17 @@
 /* Imports */
 import './auth/user.js';
-import { createCat, getCats, updateLives } from './fetch-utils.js';
+import {
+    createCat,
+    getCats,
+    removeAllCats,
+    updateLives,
+} from './fetch-utils.js';
 
 import { renderCat } from './render-utils.js';
 
 /* Get DOM Elements */
 const addCatForm = document.getElementById('add-cat-form');
-// const removeButton = document.getElementById('remove-button');
+const removeButton = document.getElementById('remove-button');
 const errorDisplay = document.getElementById('error-display');
 const catList = document.getElementById('cat-list');
 
@@ -51,6 +56,21 @@ addCatForm.addEventListener('submit', async (e) => {
     }
 
     addCatForm.reset();
+});
+
+removeButton.addEventListener('click', async () => {
+    // call removeAllCats
+    const response = await removeAllCats();
+    error = response.error;
+    // check for error
+    if (error) {
+        displayError();
+    } else {
+        // reset cat state to []
+        cats = [];
+        // display cats
+        displayCats();
+    }
 });
 
 function displayError() {
